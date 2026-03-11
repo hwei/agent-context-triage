@@ -1,3 +1,10 @@
+---
+name: agent-context-triage
+description: Produce a minimal triage of session context before compression by separating details into STATE, RETRIEVE, and DROP.
+metadata:
+  short-description: Triage context into keep, regenerate, and forget buckets
+---
+
 # agent-context-triage
 
 Goal
