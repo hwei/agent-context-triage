@@ -31,7 +31,7 @@ Use this skill when your agent session includes lots of:
 - stale reasoning
 - side discussions
 
-Instead of "summarize everything", triage first. You’ll preserve operational state and discard noise.
+Instead of "summarize everything", triage first. You will preserve operational state and discard noise.
 
 Typical use cases:
 
@@ -42,30 +42,42 @@ Typical use cases:
 
 ---
 
-## How to use (important)
+## How to use
 
-This skill is meant to be used **immediately before context compression**.
+This skill is meant to be used immediately before context compression.
 
-### Exact command sequence
+Invocation syntax depends on the host agent. Some agents expose installed skills as slash commands, while others require mentioning the skill name directly.
 
-For Claude Code and Codex CLI (after this skill is installed), use:
+### Codex
+
+After installation, invoke the skill by naming it explicitly in your request, for example:
+
+```text
+$agent-context-triage
+```
+
+or:
+
+```text
+Use agent-context-triage to triage the current session before compacting.
+```
+
+If your Codex environment supports a separate compaction command, run that immediately after triage.
+
+### Claude Code
+
+If your Claude Code environment exposes installed skills as slash commands, use:
 
 ```text
 /agent-context-triage
 /compact
 ```
 
-Recommended flow:
+### General pattern
 
-1. Run `/agent-context-triage`.
+1. Run the triage skill.
 2. Review the triage output in `STATE / RETRIEVE / DROP` format.
-3. Immediately run `/compact`.
-
-In short:
-
-```text
-/agent-context-triage -> /compact
-```
+3. Immediately compress or checkpoint context.
 
 Why this order matters:
 
@@ -94,7 +106,7 @@ DROP
 Tips:
 
 - Keep `STATE` minimal and actionable.
-- In `RETRIEVE`, store commands/paths/URLs, not full payloads.
+- In `RETRIEVE`, store commands, paths, and URLs rather than full payloads.
 - Be aggressive in `DROP`.
 - Do not wait too long after triage; compress right away.
 
@@ -113,34 +125,33 @@ Install the skill from:
 https://github.com/hwei/agent-context-triage
 
 Goal:
-Make the "agent-context-triage" skill available for future use in the appropriate location.
+Make the "agent-context-triage" skill available for future use in this coding agent's native reusable-skill mechanism.
 
 Requirements:
-- Inspect the repository
-- Determine how this coding agent supports reusable skills, prompts, or commands
-- If both user-level and project-level installation are possible, ask at most one clarification question:
-  - user-level
-  - project-level
-- Then install it in the chosen scope
-- Preserve the original skill content
-- Avoid modifying unrelated files
-- If explicit skill installation is not supported, adapt the content into the closest reusable mechanism for this agent
+- Inspect the repository and preserve the original skill content.
+- Determine this agent's native mechanism for reusable skills, prompts, or commands.
+- Prefer native skill installation over adaptation when supported.
+- If both user-level and project-level native installation are supported, ask at most one clarification question.
+- If only one native scope is supported, install directly in that scope without asking.
+- Avoid modifying unrelated files.
+- If native skill installation is not supported, adapt the content into the closest reusable mechanism for this agent.
 
 After installation:
-- Show the installed location
-- List installed files
-- Explain how to invoke or use it
+- Show the installed location.
+- List installed files.
+- Explain the exact invocation syntax for this agent.
+- If a restart or reload is required for discovery, say so explicitly.
 ```
 
 ---
 
 ## Supported agents
 
-The method is agent-agnostic and works anywhere reusable prompts/skills exist.
+The method is agent-agnostic and works anywhere reusable prompts or skills exist.
 
 Common targets:
 
-- Codex CLI
+- Codex
 - Claude Code
 - Cursor agents
 - Aider
@@ -157,8 +168,8 @@ agent-context-triage/
 └─ LICENSE
 ```
 
-- `SKILL.md`: canonical triage prompt.
-- `README.md`: explanation, installation prompt, and usage guidance.
+- `SKILL.md`: canonical triage prompt
+- `README.md`: explanation, installation prompt, and usage guidance
 
 ---
 
